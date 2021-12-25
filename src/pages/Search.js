@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
-const minimalArtistNameLength = 1;
+const minimalArtistNameLength = 2;
 
 class Search extends Component {
   constructor() {
@@ -45,6 +45,7 @@ class Search extends Component {
 
   render() {
     const { arthistName, disabledBtn, loading, req, artistExb } = this.state;
+    const stringName = `Resultado de álbuns de: ${arthistName}`;
     return (
       <>
         <Header />
@@ -71,30 +72,26 @@ class Search extends Component {
           )
         }
         {
+          !req ? null : <h4>{ stringName }</h4>
+        }
+        {
           req && (
-            <>
-              <h4>
-                Resultado de álbuns de:
-                {' '}
-                {arthistName}
-              </h4>
-              <div>
-                {artistExb.length === 0 ? <h1>Nenhum álbum foi encontrado</h1> : (
-                  artistExb.map((album, index) => (
-                    <div key={ index }>
-                      <img src={ album.artworkUrl100 } alt="imagem do album" />
-                      <h4>{album.collectionName}</h4>
-                      <Link
-                        to={ `album/${album.collectionId}` }
-                        data-testid={ `link-to-album-${album.collectionId}` }
-                      >
-                        {album.artistName}
-                      </Link>
-                    </div>
-                  ))
-                )}
-              </div>
-            </>
+            <div>
+              {artistExb.length === 0 ? <h1>Nenhum álbum foi encontrado</h1> : (
+                artistExb.map((album, index) => (
+                  <div key={ index }>
+                    <img src={ album.artworkUrl100 } alt="imagem do album" />
+                    <h4>{album.collectionName}</h4>
+                    <Link
+                      to={ `album/${album.collectionId}` }
+                      data-testid={ `link-to-album-${album.collectionId}` }
+                    >
+                      {album.artistName}
+                    </Link>
+                  </div>
+                ))
+              )}
+            </div>
           )
         }
       </>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong  } from '../services/favoriteSongsAPI';
 
 class MusicCard extends Component {
   constructor() {
@@ -12,6 +12,7 @@ class MusicCard extends Component {
   }
 
   componentDidMount() {
+    this.novaReqFavoritas();
     this.trazFavoritas();
   }
 
@@ -24,6 +25,9 @@ class MusicCard extends Component {
     if (!favoritas.has(id)) {
       await addSong(id);
       favoritas.add(id);
+    } else if (favoritas.has(id)) {
+      await removeSong(id);
+      favoritas.delete(id);
     }
     this.setState({
       loading: false,

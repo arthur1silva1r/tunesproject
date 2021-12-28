@@ -19,12 +19,15 @@ class MusicCard extends Component {
     const { favoritas } = this.state;
     this.setState({
       loading: true,
+      favoritas,
     });
     if (!favoritas.has(id)) {
       await addSong(id);
+      favoritas.add(id);
     }
     this.setState({
       loading: false,
+      favoritas,
     });
   }
 
@@ -38,6 +41,13 @@ class MusicCard extends Component {
     this.setState({
       favoritas: dataIds,
       loading: false,
+    });
+  }
+
+  novaReqFavoritas = async () => {
+    const dataAgain = new Set(await getFavoriteSongs());
+    this.setState({
+      favoritas: dataAgain,
     });
   }
 

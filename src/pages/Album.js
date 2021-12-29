@@ -49,7 +49,6 @@ class Album extends Component {
                 {
                   listaMusicas.filter((musica) => musica.trackName && musica.previewUrl)
                     .map((song, index) => (<MusicCard
-                      musicObj={ song }
                       { ... song }
                       key={ index }
                     />))
